@@ -1,0 +1,100 @@
+/* Container for loading component */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  min-height: 200px;
+  text-align: center;
+  background-color: transparent; /* adapt to page background */
+  color: #555;
+}
+
+/* Spinner */
+.spinner {
+  border: 6px solid #f3f3f3; /* Light grey */
+  border-top: 6px solid #3ea6ff; /* YouTube-like blue */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+/* Spinner animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Loading text */
+.loading-container p {
+  font-size: 16px;
+  color: #555;
+  font-weight: 500;
+}
+
+/* ------------------ Responsive ------------------ */
+
+/* Small tablets and large phones */
+@media screen and (max-width: 768px) {
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border-width: 5px;
+  }
+
+  .loading-container p {
+    font-size: 15px;
+  }
+
+  .loading-container {
+    padding: 30px;
+  }
+}
+
+/* Mobile phones */
+@media screen and (max-width: 480px) {
+  .spinner {
+    width: 30px;
+    height: 30px;
+    border-width: 4px;
+  }
+
+  .loading-container p {
+    font-size: 14px;
+  }
+
+  .loading-container {
+    padding: 20px;
+  }
+}
+
+/* Dark mode support */
+body.dark-mode .loading-container p {
+  color: #ddd;
+}
+
+body.dark-mode .spinner {
+  border: 6px solid #444; /* dark grey */
+  border-top: 6px solid #3ea6ff; /* blue */
+}
+/* Fullscreen loader */
+.loading-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7); /* translucent dark background */
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

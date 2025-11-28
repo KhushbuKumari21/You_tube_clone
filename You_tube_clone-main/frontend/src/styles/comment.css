@@ -1,0 +1,173 @@
+/* ---------------- COMMENT CONTAINER ---------------- */
+.comment-box {
+  display: flex;
+  gap: 12px;
+  position: relative;
+  padding: 12px;
+  border-radius: 12px;
+  background-color: #1e1e1e;
+  margin-bottom: 10px;
+  transition: background 0.2s ease, transform 0.2s ease;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.comment-box:hover {
+  background-color: #2a2a2a;
+  transform: translateY(-2px);
+}
+
+/* ---------------- USER AVATAR ---------------- */
+.comment-user-img,
+.avatar-fallback {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #fff;
+  font-size: 18px;
+  background-color: #3ea6ff;
+}
+
+/* ---------------- COMMENT DETAILS ---------------- */
+.comment-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.comment-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.comment-name {
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.comment-date {
+  color: #aaa;
+  font-size: 12px;
+}
+
+.comment-text {
+  font-size: 14px;
+  color: #ddd;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* ---------------- EDIT/DELETE BUTTONS ---------------- */
+.comment-edit-delete {
+  display: flex;
+  gap: 10px;
+  color: #aaa;
+  cursor: pointer;
+  position: absolute;
+  right: 12px;
+  top: 12px;
+}
+
+.comment-edit-delete span:hover {
+  color: #fff;
+}
+
+/* ---------------- EDIT MODE ---------------- */
+.edit-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.edit-input {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: #121212;
+  border: 1px solid #303030;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.save-btn,
+.cancel-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.save-btn {
+  background-color: #3ea6ff;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #303030;
+  color: #aaa;
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 768px) {
+  .comment-box {
+    flex-direction: column;
+  }
+
+  .comment-edit-delete {
+    position: static;
+    margin-top: 8px;
+    justify-content: flex-end;
+  }
+
+  .comment-user-img,
+  .avatar-fallback {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .comment-text {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 420px) {
+  .comment-user-img,
+  .avatar-fallback {
+    width: 35px;
+    height: 35px;
+    font-size: 14px;
+  }
+
+  .comment-text {
+    font-size: 12.5px;
+  }
+
+  .save-btn,
+  .cancel-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,52 @@
+/* src/styles/App.css */
+
+/* Main container (Sidebar + Main content) */
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--bg-color, #181818);
+}
+
+/* Main content area */
+.main {
+  flex: 7;
+  background-color: var(--bg-color, #181818);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+/* Inner wrapper for padding and spacing */
+.wrapper {
+  padding: 22px 16px;
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .main {
+    flex: 1;
+  }
+
+  .wrapper {
+    padding: 16px 10px;
+  }
+}
+
+/* Light theme overrides */
+body.light-mode {
+  --bg-color: #f9f9f9;
+  --text-color: #000;
+}
+
+/* Dark theme overrides */
+body.dark-mode {
+  --bg-color: #181818;
+  --text-color: #fff;
+}

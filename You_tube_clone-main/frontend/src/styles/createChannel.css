@@ -1,0 +1,139 @@
+/* src/styles/createChannel.css */
+
+/* ----- MAIN CONTAINER ----- */
+.create-channel-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;       /* items center horizontally */
+  justify-content: center;   /* center vertically */
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: #f5f5f5;
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;          /* center block width */
+  margin: 0 auto;            /* fully center page */
+  box-sizing: border-box;
+}
+
+
+/* ----- TITLE ----- */
+.create-channel-page h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* ----- INPUTS ----- */
+.create-channel-page input,
+.create-channel-page textarea {
+  width: 100%;
+  max-width: 550px;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.create-channel-page input:focus,
+.create-channel-page textarea:focus {
+  border-color: #0073e6;
+  box-shadow: 0 0 5px rgba(0, 115, 230, 0.3);
+}
+
+/* ----- TEXTAREA ----- */
+.create-channel-page textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+/* ----- BUTTON ----- */
+.create-channel-page button {
+  width: 100%;
+  max-width: 300px;
+  padding: 14px 25px;
+  background-color: #0073e6;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.create-channel-page button:hover {
+  background-color: #005bb5;
+}
+
+/* ----- TABLET (good spacing & readable font) ----- */
+@media (max-width: 768px) {
+  .create-channel-page {
+    padding: 30px 20px;
+    gap: 18px;
+  }
+
+  .create-channel-page h2 {
+    font-size: 1.8rem;
+  }
+
+  .create-channel-page input,
+  .create-channel-page textarea {
+    max-width: 90%;
+    font-size: 0.95rem;
+  }
+
+  .create-channel-page button {
+    max-width: 70%;
+    font-size: 0.95rem;
+  }
+}
+
+/* ----- NORMAL MOBILE (425px) ----- */
+@media (max-width: 480px) {
+  .create-channel-page {
+    padding: 25px 15px;
+    gap: 16px;
+  }
+
+  .create-channel-page h2 {
+    font-size: 1.6rem;
+  }
+
+  .create-channel-page input,
+  .create-channel-page textarea {
+    max-width: 100%;
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+
+  .create-channel-page button {
+    max-width: 90%;
+    font-size: 0.9rem;
+    padding: 12px;
+  }
+}
+
+/* ----- VERY SMALL MOBILE (<=350px) ----- */
+@media (max-width: 350px) {
+  .create-channel-page h2 {
+    font-size: 1.4rem;
+  }
+
+  .create-channel-page input,
+  .create-channel-page textarea {
+    font-size: 0.85rem;
+    padding: 9px 10px;
+  }
+
+  .create-channel-page button {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+}

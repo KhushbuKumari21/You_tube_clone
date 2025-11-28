@@ -1,0 +1,51 @@
+.account-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.account-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.account-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.account-form label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+.account-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.save-btn {
+  background-color: #3b82f6;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .account-container {
+    padding: 10px;
+  }
+  .account-avatar {
+    width: 80px;
+    height: 80px;
+  }
+}

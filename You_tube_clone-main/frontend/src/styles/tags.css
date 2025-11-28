@@ -1,0 +1,97 @@
+/* ---------------- TAGS CONTAINER ---------------- */
+.tags-container {
+  position: fixed;
+  top: 61px;
+  left: 220px; /* Desktop sidebar width */
+  right: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 16px;
+  padding: 12px 18px;
+  overflow-x: auto;
+  background-color: var(--bg, #000);
+  z-index: 3000; /* Always above sidebar */
+  border-radius: 8px 0 0 8px;
+  scrollbar-width: thin;
+}
+
+/* Hide scrollbar on Webkit (Chrome) */
+.tags-container::-webkit-scrollbar {
+  height: 0px;
+}
+
+/* ---------------- TAG ITEM ---------------- */
+.tag-item {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+/* Light mode */
+.tag-item.light {
+  color: #000;
+  background-color: #f1f1f1;
+  border-color: #ddd;
+}
+
+/* Dark mode */
+.tag-item.dark {
+  color: #fff;
+  background-color: #2a2a2a;
+  border-color: #444;
+}
+
+/* Active */
+.tag-item.active {
+  background-color: #3ea6ff;
+  color: white;
+  border-color: #3ea6ff;
+}
+
+/* Hover */
+.tag-item:hover {
+  background-color: #e0e0e0;
+}
+.tag-item.dark:hover {
+  background-color: #3a3a3a;
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+
+/* 📌 LARGE TABLET (sidebar slightly smaller) */
+@media (max-width: 1024px) {
+  .tags-container {
+    left: 160px;
+  }
+}
+
+/* 📌 TABLET + MOBILE: Sidebar collapses */
+@media (max-width: 768px) {
+  .tags-container {
+    left: 0; /* Full width */
+    top: 61px;
+    padding: 10px 12px;
+  }
+
+  .tag-item {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+}
+
+/* 📌 SMALL MOBILE */
+@media (max-width: 480px) {
+  .tags-container {
+    top: 56px;
+  }
+
+  .tag-item {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+}

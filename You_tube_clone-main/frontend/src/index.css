@@ -1,0 +1,41 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #f8f8f8;
+  font-family: Arial;
+}
+
+.video-card {
+  width: 250px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 15px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  background: white;
+  transition: transform .2s;
+}
+
+.video-card:hover {
+  transform: scale(1.05);
+}
+
+.video-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+.header {
+  padding: 20px;
+  background: white;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+.sidebar {
+  width: 250px;
+  background: white;
+  height: 100vh;
+  padding: 20px;
+  position: fixed;
+}

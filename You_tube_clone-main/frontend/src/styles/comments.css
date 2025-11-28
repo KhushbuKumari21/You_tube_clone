@@ -1,0 +1,256 @@
+/* ---------------- COMMENTS CONTAINER ---------------- */
+.comments-container {
+  margin-top: 20px;
+  color: #fff;
+  width: 100%;
+  font-family: Arial, sans-serif;
+}
+
+/* ---------------- NEW COMMENT INPUT ---------------- */
+.new-comment {
+  display: flex;
+  justify-content: center; /* center input + button */
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.comment-avatar,
+.avatar-fallback {
+  width: 45px; /* standard avatar size */
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #fff;
+  background-color: #3ea6ff;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.comment-input {
+  flex: 1;
+  max-width: 500px;
+  min-width: 200px;
+  padding: 10px 14px;
+  border-radius: 25px;
+  background-color: #121212;
+  border: 1px solid #303030;
+  color: #fff;
+  font-size: 14px;
+}
+
+.comment-btn {
+  padding: 8px 18px;
+  background-color: #3ea6ff;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ---------------- ALL COMMENTS ---------------- */
+.all-comments {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center all comments horizontally */
+  gap: 15px;
+  width: 100%;
+}
+
+/* ---------------- COMMENT BOX ---------------- */
+.comment-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center; /* center avatar + text vertically */
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background-color: #1e1e1e;
+  max-width: 600px; /* limit width */
+  width: 90%;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.comment-box:hover {
+  background-color: #2a2a2a;
+  transform: translateY(-2px);
+}
+
+/* ---------------- USER AVATAR ---------------- */
+.comment-user-img,
+.avatar-fallback {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #fff;
+  background-color: #3ea6ff;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* ---------------- COMMENT DETAILS ---------------- */
+.comment-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  text-align: center; /* center username + text */
+}
+
+.comment-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center username + date */
+  gap: 4px;
+}
+
+.comment-name {
+  font-weight: 600;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.comment-date {
+  color: #aaa;
+  font-size: 12px;
+}
+
+.comment-text {
+  font-size: 14px;
+  color: #ddd;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+/* ---------------- EDIT/DELETE BUTTONS ---------------- */
+.comment-edit-delete {
+  display: flex;
+  gap: 10px;
+  color: #aaa;
+  cursor: pointer;
+  position: absolute;
+  right: 12px;
+  top: 12px;
+}
+
+.comment-edit-delete span:hover {
+  color: #fff;
+}
+
+/* ---------------- EDIT MODE ---------------- */
+.edit-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.edit-input {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: #121212;
+  border: 1px solid #303030;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.save-btn,
+.cancel-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.save-btn {
+  background-color: #3ea6ff;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #303030;
+  color: #aaa;
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 1024px) {
+  .comment-avatar,
+  .avatar-fallback {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .comment-input {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .new-comment {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .comment-box {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .comment-details {
+    text-align: center;
+  }
+
+  .comment-input,
+  .comment-btn {
+    width: 90%; /* takes most of screen width */
+  }
+}
+
+@media (max-width: 420px) {
+  .comment-avatar,
+  .avatar-fallback {
+    width: 35px;
+    height: 35px;
+    font-size: 14px;
+  }
+
+  .comment-input {
+    font-size: 12.5px;
+    padding: 8px 12px;
+  }
+
+  .comment-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .comment-text {
+    font-size: 13px;
+  }
+
+  .comment-box {
+    width: 95%;
+  }
+}

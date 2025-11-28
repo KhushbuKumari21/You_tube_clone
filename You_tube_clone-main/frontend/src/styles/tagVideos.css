@@ -1,0 +1,51 @@
+/* src/styles/tagVideos.css */
+
+/* Container for videos list */
+.videos-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Each video card styling */
+.video-card {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.video-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.video-card h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.video-card video {
+  border-radius: 4px;
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+.video-card p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Optional: make tag container sticky on top */
+.tags-container {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 10;
+  padding: 10px 0;
+  margin-bottom: 10px;
+}

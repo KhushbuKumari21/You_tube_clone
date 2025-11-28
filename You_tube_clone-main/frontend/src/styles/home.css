@@ -1,0 +1,170 @@
+/* ---------------- HOME CONTAINER ---------------- */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  padding: 20px;
+  padding-left: 180px; /* Sidebar shift */
+  text-align: center;
+  transition: 0.3s ease;
+  background-color: var(--bg-color, #f9f9f9);
+}
+
+/* Message text */
+.home-container h2 {
+  font-size: clamp(16px, 2vw, 24px);
+  font-weight: 600;
+  color: #333;
+  margin: 10px 0;
+}
+
+/* ---------------- FILTER BUTTONS ---------------- */
+.filter-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  position: fixed;
+  left: 210px;
+  top: 55px;
+  background-color: var(--bg-color, #f9f9f9);
+  z-index: 100;
+  padding: 8px 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filter-buttons button {
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  background: #ddd;
+  color: #000;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.filter-buttons button:hover {
+  background: #bbb;
+}
+
+.filter-buttons .active-filter {
+  background: #000;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* ---------------- VIDEOS GRID ---------------- */
+.videos-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
+  height: 100%;
+  margin-top: 10px; /* move entire grid upward */
+}
+
+/* ---------------- VIDEO CARD ---------------- */
+.video-card {
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Optional: hover effect to lift card more */
+.video-card:hover {
+  transform: translateY(-5px); /* moves card up on hover */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.video-card img {
+  width: 100%;
+  display: block;
+}
+
+.video-title {
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.video-info {
+  font-size: 14px;
+  padding: 0 8px 8px;
+  color: #666;
+}
+
+/* ---------------- ERROR / LOADING ---------------- */
+.error {
+  color: red;
+  margin-top: 20px;
+}
+
+.loading {
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+
+/* Mobile */
+@media (max-width: 600px) {
+  .home-container {
+    padding-left: 20px;
+    padding-right: 10px;
+  }
+
+  .filter-buttons {
+    justify-content: center;
+    gap: 8px;
+    padding-left: 0;
+  }
+
+  .filter-buttons button {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  .videos-container {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .home-container {
+    padding-left: 120px;
+  }
+
+  .filter-buttons {
+    padding-left: 100px;
+  }
+
+  .videos-container {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .home-container {
+    padding-left: 180px;
+  }
+
+  .filter-buttons {
+    padding-left: 160px;
+  }
+
+  .videos-container {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}

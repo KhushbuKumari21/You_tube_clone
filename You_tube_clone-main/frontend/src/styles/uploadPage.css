@@ -1,0 +1,49 @@
+/* -------- Upload Page Styling -------- */
+
+.upload-container {
+  max-width: 600px;
+  margin: 50px auto;
+  background: #f8f9fa;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.upload-heading {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.upload-box {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.upload-input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 16px;
+}
+
+.upload-input:focus {
+  border-color: #1976d2;
+}
+
+.upload-btn {
+  padding: 14px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.upload-btn:disabled {
+  background: gray;
+}
