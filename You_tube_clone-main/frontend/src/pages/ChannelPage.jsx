@@ -1,4 +1,3 @@
-// src/pages/ChannelPage.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
@@ -13,14 +12,10 @@ const ChannelPage = () => {
   const [subscribers, setSubscribers] = useState(0);
   const [subscribed, setSubscribed] = useState(false);
 
-  // Redirect non-logged-in users
   useEffect(() => {
-    if (!localStorage.getItem("userId")) {
-      navigate("/login");
-    }
+    if (!localStorage.getItem("token")) navigate("/login");
   }, [navigate]);
 
-  // Fetch channel data
   const fetchChannel = async () => {
     try {
       const res = await axiosInstance.get(`/channels/${id}`);
@@ -28,7 +23,7 @@ const ChannelPage = () => {
       setSubscribers(res.data.subscribers || 0);
       setLoading(false);
 
-      // Redirect to upload if owner has no videos
+      // Redirect owner to upload if no videos
       if (
         res.data.owner._id === localStorage.getItem("userId") &&
         res.data.videos.length === 0
@@ -36,8 +31,9 @@ const ChannelPage = () => {
         navigate(`/upload-video/${res.data._id}`);
       }
     } catch (err) {
+      console.log(err.response?.data);
       setLoading(false);
-      alert("Failed to load channel");
+      alert(err.response?.data?.message || "Failed to load channel");
     }
   };
 
@@ -45,49 +41,42 @@ const ChannelPage = () => {
     fetchChannel();
   }, [id]);
 
-  if (loading)
-    return (
-      <h2 style={{ textAlign: "center", marginTop: "50px" }}>Loading...</h2>
-    );
-  if (!channel)
-    return (
-      <h2 style={{ textAlign: "center", marginTop: "50px" }}>
-        Channel Not Found
-      </h2>
-    );
+  if (loading) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
+  if (!channel) return <h2 style={{ textAlign: "center" }}>Channel Not Found</h2>;
 
-  const handleSubscribe = () => {
-    if (subscribed) return;
-    setSubscribers(subscribers + 1);
-    setSubscribed(true);
-  };
+  const handleSubscribe = async () => {
+  if (subscribed) return;
+  setSubscribers(subscribers + 1); // frontend
+  setSubscribed(true);
+  const token = localStorage.getItem("token");
+  try {
+    await axiosInstance.post(`/channels/${id}/subscribe`, {}, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  } catch (err) {
+    console.log(err.response?.data);
+  }
+};
 
   return (
     <div className="channel-page">
-      {/* Channel Banner */}
       <img
         className="channel-banner"
-        src={
-          channel.channelBanner ||
-          "https://example.com/banners/default_banner.png"
-        }
+        src={channel.channelBanner || "/avatars/kkimage.png"}
         alt="Channel Banner"
       />
 
-      {/* Channel Header */}
       <div className="channel-header">
         <div className="channel-header-left">
           <img
-            src={
-              channel.avatar || "https://example.com/avatars/default_avatar.png"
-            }
+            src={channel.avatar || "/avatars/kkimage.png"}
             className="channel-avatar"
             alt="Avatar"
           />
           <div className="channel-info-text">
-            <h1 className="channel-title">{channel.channelName}</h1>
-            <p className="channel-description">{channel.description}</p>
-            <span className="sub-count">Subscribers: {subscribers}</span>
+            <h1>{channel.channelName}</h1>
+            <p>{channel.description}</p>
+            <span>Subscribers: {subscribers}</span>
           </div>
         </div>
 
@@ -104,23 +93,19 @@ const ChannelPage = () => {
         </div>
       </div>
 
-      {/* Videos Section */}
-      <h2 className="video-section-title">Videos</h2>
-
+      <h2>Videos</h2>
       <div className="video-list">
         {channel.videos.length === 0 ? (
-          <p style={{ textAlign: "center" }}>No videos uploaded yet.</p>
+          <p>No videos uploaded yet.</p>
         ) : (
           channel.videos.map((video) => (
-            <div className="video-card" key={video._id}>
+            <div key={video._id} className="video-card">
               <img src={video.thumbnail} alt={video.title} />
               <h4>{video.title}</h4>
               <p>
-                {video.views} views •{" "}
-                {new Date(video.uploadDate).toDateString()}
+                {video.views} views • {new Date(video.uploadDate).toDateString()}
               </p>
 
-              {/* Owner actions */}
               {channel.owner._id === localStorage.getItem("userId") && (
                 <div className="video-actions">
                   <Link to={`/edit-video/${video._id}`}>
@@ -128,12 +113,11 @@ const ChannelPage = () => {
                   </Link>
                   <button
                     onClick={async () => {
-                      if (
-                        window.confirm(
-                          "Are you sure you want to delete this video?"
-                        )
-                      ) {
-                        await axiosInstance.delete(`/videos/${video._id}`);
+                      if (window.confirm("Delete this video?")) {
+                        const token = localStorage.getItem("token");
+                        await axiosInstance.delete(`/videos/${video._id}`, {
+                          headers: { Authorization: `Bearer ${token}` },
+                        });
                         fetchChannel();
                       }
                     }}
