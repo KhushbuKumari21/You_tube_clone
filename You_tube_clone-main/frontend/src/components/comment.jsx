@@ -1,4 +1,6 @@
 // src/components/Comment.jsx
+// Component to display a single comment with edit and delete functionality
+
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { MdOutlineDelete, MdEdit } from "react-icons/md";
@@ -8,12 +10,12 @@ import "../styles/comment.css";
 
 const Comment = ({ comment, setComments }) => {
   const { currentUser } = useSelector((state) => state.user);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedText, setEditedText] = useState(comment.text);
+  const [isEditing, setIsEditing] = useState(false); // Toggle edit mode
+  const [editedText, setEditedText] = useState(comment.text); // Edited text state
 
   const user = comment.user || { _id: null, username: "Unknown", img: null };
 
-  // Token fallback from Redux or localStorage
+  // Token fallback from Redux state or localStorage
   const token =
     currentUser?.token ||
     JSON.parse(localStorage.getItem("currentUser"))?.token;
@@ -24,6 +26,7 @@ const Comment = ({ comment, setComments }) => {
       await axiosInstance.delete(`/comments/${comment._id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      // Remove deleted comment from state
       setComments((prev) => prev.filter((c) => c._id !== comment._id));
     } catch (err) {
       console.error("Failed to delete comment:", err);
@@ -39,7 +42,8 @@ const Comment = ({ comment, setComments }) => {
         { text: editedText },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setIsEditing(false);
+      setIsEditing(false); // Exit edit mode
+      // Update comment text in state
       setComments((prev) =>
         prev.map((c) =>
           c._id === comment._id ? { ...c, text: editedText } : c
@@ -52,6 +56,7 @@ const Comment = ({ comment, setComments }) => {
 
   return (
     <div className="comment-box">
+      {/* User avatar or fallback letter */}
       {user.img ? (
         <img className="comment-user-img" src={user.img} alt="user" />
       ) : (
@@ -60,6 +65,7 @@ const Comment = ({ comment, setComments }) => {
         </div>
       )}
 
+      {/* Comment content */}
       <div className="comment-details">
         <div className="comment-header">
           <span className="comment-name">{user.username}</span>
@@ -90,6 +96,7 @@ const Comment = ({ comment, setComments }) => {
         )}
       </div>
 
+      {/* Edit/Delete buttons for comment owner */}
       {currentUser?._id === user._id && !isEditing && (
         <div className="comment-edit-delete">
           <span className="edit-icon" onClick={() => setIsEditing(true)}>
