@@ -79,8 +79,7 @@ router.get("/:id", async (req, res) => {
         populate: { path: "channel", select: "channelName channelBanner" },
       });
 
-    if (!channel)
-      return res.status(404).json({ message: "Channel not found" });
+    if (!channel) return res.status(404).json({ message: "Channel not found" });
 
     res.status(200).json(channel);
   } catch (err) {
@@ -100,8 +99,7 @@ router.get("/find/:userId", async (req, res) => {
       .populate("owner", "username email img")
       .populate("videos");
 
-    if (!channel)
-      return res.status(404).json({ message: "Channel not found" });
+    if (!channel) return res.status(404).json({ message: "Channel not found" });
 
     res.status(200).json(channel);
   } catch (err) {
@@ -118,8 +116,7 @@ router.put("/:id", verifyToken, async (req, res) => {
 
   try {
     const channel = await Channel.findById(req.params.id);
-    if (!channel)
-      return res.status(404).json({ message: "Channel not found" });
+    if (!channel) return res.status(404).json({ message: "Channel not found" });
 
     if (channel.owner.toString() !== req.user._id.toString())
       return res.status(403).json({ message: "Not authorized" });
@@ -145,8 +142,7 @@ router.delete("/:id", verifyToken, async (req, res) => {
 
   try {
     const channel = await Channel.findById(req.params.id);
-    if (!channel)
-      return res.status(404).json({ message: "Channel not found" });
+    if (!channel) return res.status(404).json({ message: "Channel not found" });
 
     if (channel.owner.toString() !== req.user._id.toString())
       return res.status(403).json({ message: "Not authorized" });
@@ -163,6 +159,30 @@ router.delete("/:id", verifyToken, async (req, res) => {
     });
 
     res.status(200).json({ message: "Channel deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+// routes/channels.js
+router.post("/:id/subscribe", verifyToken, async (req, res) => {
+  try {
+    const channel = await Channel.findById(req.params.id);
+    if (!channel) return res.status(404).json({ message: "Channel not found" });
+
+    // Check if user already subscribed
+    if (channel.subscribers.includes(req.user._id))
+      return res.status(400).json({ message: "Already subscribed" });
+
+    // Add user to subscribers
+    channel.subscribers.push(req.user._id);
+    await channel.save();
+
+    res
+      .status(200)
+      .json({
+        message: "Subscribed successfully",
+        subscribers: channel.subscribers.length,
+      });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
