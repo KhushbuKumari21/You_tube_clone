@@ -144,7 +144,6 @@ Add JWT token in header
 comment text in JSON body
 
 # OutPut Folder :
-
 D:\youtube-clone\backend\backend output\OUTPUT
 
 # Github Link :-https://github.com/KhushbuKumari21/You_tube_clone
