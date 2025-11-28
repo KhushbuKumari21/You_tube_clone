@@ -1,3 +1,4 @@
+// src/pages/ChannelPage.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
@@ -12,6 +13,13 @@ const ChannelPage = () => {
   const [subscribers, setSubscribers] = useState(0);
   const [subscribed, setSubscribed] = useState(false);
 
+  // Redirect non-logged-in users
+  useEffect(() => {
+    if (!localStorage.getItem("userId")) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
   // Fetch channel data
   const fetchChannel = async () => {
     try {
@@ -20,8 +28,11 @@ const ChannelPage = () => {
       setSubscribers(res.data.subscribers || 0);
       setLoading(false);
 
-      // Redirect to upload if no videos
-      if (res.data.owner._id === localStorage.getItem("userId") && res.data.videos.length === 0) {
+      // Redirect to upload if owner has no videos
+      if (
+        res.data.owner._id === localStorage.getItem("userId") &&
+        res.data.videos.length === 0
+      ) {
         navigate(`/upload-video/${res.data._id}`);
       }
     } catch (err) {
@@ -32,10 +43,18 @@ const ChannelPage = () => {
 
   useEffect(() => {
     fetchChannel();
-  }, []);
+  }, [id]);
 
-  if (loading) return <h2>Loading...</h2>;
-  if (!channel) return <h2>Channel Not Found</h2>;
+  if (loading)
+    return (
+      <h2 style={{ textAlign: "center", marginTop: "50px" }}>Loading...</h2>
+    );
+  if (!channel)
+    return (
+      <h2 style={{ textAlign: "center", marginTop: "50px" }}>
+        Channel Not Found
+      </h2>
+    );
 
   const handleSubscribe = () => {
     if (subscribed) return;
@@ -45,11 +64,26 @@ const ChannelPage = () => {
 
   return (
     <div className="channel-page">
-      <img className="channel-banner" src={channel.channelBanner} alt="" />
+      {/* Channel Banner */}
+      <img
+        className="channel-banner"
+        src={
+          channel.channelBanner ||
+          "https://example.com/banners/default_banner.png"
+        }
+        alt="Channel Banner"
+      />
 
+      {/* Channel Header */}
       <div className="channel-header">
         <div className="channel-header-left">
-          <img src="/avatars/kkimage.png" className="channel-avatar" />
+          <img
+            src={
+              channel.avatar || "https://example.com/avatars/default_avatar.png"
+            }
+            className="channel-avatar"
+            alt="Avatar"
+          />
           <div className="channel-info-text">
             <h1 className="channel-title">{channel.channelName}</h1>
             <p className="channel-description">{channel.description}</p>
@@ -70,17 +104,23 @@ const ChannelPage = () => {
         </div>
       </div>
 
+      {/* Videos Section */}
       <h2 className="video-section-title">Videos</h2>
 
       <div className="video-list">
         {channel.videos.length === 0 ? (
-          <p>No videos uploaded yet.</p>
+          <p style={{ textAlign: "center" }}>No videos uploaded yet.</p>
         ) : (
           channel.videos.map((video) => (
             <div className="video-card" key={video._id}>
               <img src={video.thumbnail} alt={video.title} />
               <h4>{video.title}</h4>
-              <p>{video.views} views • {new Date(video.uploadDate).toDateString()}</p>
+              <p>
+                {video.views} views •{" "}
+                {new Date(video.uploadDate).toDateString()}
+              </p>
+
+              {/* Owner actions */}
               {channel.owner._id === localStorage.getItem("userId") && (
                 <div className="video-actions">
                   <Link to={`/edit-video/${video._id}`}>
@@ -88,8 +128,14 @@ const ChannelPage = () => {
                   </Link>
                   <button
                     onClick={async () => {
-                      await axiosInstance.delete(`/videos/${video._id}`);
-                      fetchChannel();
+                      if (
+                        window.confirm(
+                          "Are you sure you want to delete this video?"
+                        )
+                      ) {
+                        await axiosInstance.delete(`/videos/${video._id}`);
+                        fetchChannel();
+                      }
                     }}
                   >
                     Delete
