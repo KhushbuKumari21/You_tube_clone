@@ -13,12 +13,13 @@ import {
 } from "react-icons/ai";
 
 const VideoPage = () => {
-  const { id } = useParams();
-  const [video, setVideo] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState("");
-  const [userId, setUserId] = useState("");
+  const { id } = useParams(); // URL se video ID fetch karna
+  const [video, setVideo] = useState(null); // Current video object
+  const [loading, setLoading] = useState(true); // Loading state
+  const [token, setToken] = useState(""); // JWT token for auth
+  const [userId, setUserId] = useState(""); // Logged in user ID
 
+  // --- Load token and user ID from localStorage ---
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -26,6 +27,7 @@ const VideoPage = () => {
     if (storedUser) setUserId(storedUser._id);
   }, []);
 
+  // --- Fetch video details from backend ---
   const fetchVideo = async () => {
     try {
       const res = await axiosInstance.get(`/videos/find/${id}`);
@@ -37,27 +39,30 @@ const VideoPage = () => {
     }
   };
 
+  // --- Fetch video and increment view count ---
   useEffect(() => {
     const load = async () => {
       await fetchVideo();
       try {
-        await axiosInstance.put(`/videos/views/${id}`);
-        fetchVideo();
+        await axiosInstance.put(`/videos/views/${id}`); // Increment view count
+        fetchVideo(); // Refresh video data to show updated views
       } catch {}
     };
     load();
   }, [id]);
 
+  // --- Handle like button ---
   const handleLike = async () => {
-    if (!token) return alert("Please login first");
+    if (!token) return alert("Please login first"); // Require login
     await axiosInstance.put(
       `/videos/like/${video._id}`,
       {},
       { headers: { Authorization: `Bearer ${token}` } }
     );
-    fetchVideo();
+    fetchVideo(); // Refresh video to show updated likes
   };
 
+  // --- Handle dislike button ---
   const handleDislike = async () => {
     if (!token) return alert("Please login first");
     await axiosInstance.put(
@@ -65,27 +70,32 @@ const VideoPage = () => {
       {},
       { headers: { Authorization: `Bearer ${token}` } }
     );
-    fetchVideo();
+    fetchVideo(); // Refresh video to show updated dislikes
   };
 
+  // --- Loading / Error Handling ---
   if (loading) return <p className="loading-text">Loading...</p>;
   if (!video) return <p className="loading-text">Video not found</p>;
 
-  const uploadTime = video.uploadDate ? format(video.uploadDate) : "Unknown";
-  const channelName = video.channel?.channelName || "Unknown Channel";
-  const channelAvatar = video.channel?.avatar || "/avatars/kkimage.png";
+  const uploadTime = video.uploadDate ? format(video.uploadDate) : "Unknown"; // Format upload date
+  const channelName = video.channel?.channelName || "Unknown Channel"; // Fallback if channel missing
+  const channelAvatar = video.channel?.avatar || "/avatars/kkimage.png"; // Default avatar
 
   return (
     <div className="video-container">
       <div className="video-wrapper">
+        {/* Video Player */}
         <video className="video-frame" src={video.videoUrl} controls />
 
+        {/* Video Title */}
         <h2 className="video-title">{video.title}</h2>
 
+        {/* Video Info */}
         <div className="video-info">
           {video.views.toLocaleString()} views • {uploadTime}
         </div>
 
+        {/* Like / Dislike Buttons */}
         <div className="video-actions">
           <button onClick={handleLike}>
             {video.likes.includes(userId) ? <AiFillLike /> : <AiOutlineLike />}
@@ -102,15 +112,16 @@ const VideoPage = () => {
           </button>
         </div>
 
+        {/* Video Description */}
         <p className="video-description">{video.description}</p>
 
-        {/* CHANNEL INFO */}
+        {/* Channel Info */}
         <div className="channel-info">
           <img className="channel-avatar" src={channelAvatar} alt="" />
           <strong>{channelName}</strong>
         </div>
 
-        {/* COMMENTS */}
+        {/* Comments Section */}
         <Comments videoId={video._id} token={token} />
       </div>
     </div>
