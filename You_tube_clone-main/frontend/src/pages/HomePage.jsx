@@ -7,6 +7,7 @@ import { fetchAllSuccess } from "../redux/videosSlice";
 import "../styles/home.css";
 
 // ---------- TAGS ----------
+// Default tags for filtering videos by category
 const DEFAULT_TAGS = [
   "All",
   "Music",
@@ -22,6 +23,7 @@ const DEFAULT_TAGS = [
 ];
 
 // ---------- SAMPLE DATA ----------
+// Fallback sample data to display if API fetch fails or returns empty
 const sampleData = [
   {
     videoId: "video01",
@@ -51,12 +53,14 @@ const HomePage = () => {
   const { allVideos } = useSelector((state) => state.videos);
   const { currentUser } = useSelector((state) => state.user);
 
-  const [activeTag, setActiveTag] = useState("All");
-  const [tags] = useState(DEFAULT_TAGS);
-  const [loading, setLoading] = useState(true);
-  const [err, setErr] = useState("");
+  // ---------- STATE ----------
+  const [activeTag, setActiveTag] = useState("All"); // currently selected tag
+  const [tags] = useState(DEFAULT_TAGS); // tag list for filtering
+  const [loading, setLoading] = useState(true); // loading indicator
+  const [err, setErr] = useState(""); // error message state
 
   // ---------- LOGIN CHECK ----------
+  // If user is not logged in, show a message
   if (!currentUser) {
     return (
       <div className="home-container">
@@ -66,6 +70,7 @@ const HomePage = () => {
   }
 
   // ---------- FETCH VIDEOS ----------
+  // Fetch all videos from API on component mount
   useEffect(() => {
     const fetchVideos = async () => {
       try {
@@ -73,16 +78,18 @@ const HomePage = () => {
         const videosArray = Array.isArray(res.data) ? res.data : [res.data];
 
         if (videosArray.length === 0) {
+          // If API returns empty, fallback to sample data
           dispatch(fetchAllSuccess(sampleData));
         } else {
+          // Otherwise, store fetched videos in Redux store
           dispatch(fetchAllSuccess(videosArray));
         }
       } catch (error) {
         console.error("Error fetching:", error);
-        setErr("Failed to fetch videos.");
-        dispatch(fetchAllSuccess(sampleData)); // fallback
+        setErr("Failed to fetch videos."); // show error to user
+        dispatch(fetchAllSuccess(sampleData)); // fallback to sample data
       } finally {
-        setLoading(false);
+        setLoading(false); // stop loading indicator
       }
     };
 
@@ -90,19 +97,21 @@ const HomePage = () => {
   }, [dispatch]);
 
   // ---------- FILTER & HIDE INVALID CHANNELS ----------
+  // Only display videos with valid channelName
   const filteredVideos = allVideos
     .filter((v) => v.channelName || v.channel?.channelName) // hide unknown channels
-    .filter((v) => activeTag === "All" || v.tags?.includes(activeTag));
+    .filter((v) => activeTag === "All" || v.tags?.includes(activeTag)); // filter by selected tag
 
   return (
     <div className="home-container">
       {/* FILTER BUTTONS */}
+      {/* Display tags as buttons to filter videos */}
       <div className="filter-buttons">
         {tags.map((tag) => (
           <button
             key={tag}
             className={activeTag === tag ? "active-filter" : ""}
-            onClick={() => setActiveTag(tag)}
+            onClick={() => setActiveTag(tag)} // update active tag on click
           >
             {tag}
           </button>
@@ -120,7 +129,7 @@ const HomePage = () => {
             <VideoCard key={video.videoId || video._id} video={video} />
           ))
         ) : (
-          !loading && <p>No videos found.</p>
+          !loading && <p>No videos found.</p> // show message if no videos
         )}
       </div>
     </div>
