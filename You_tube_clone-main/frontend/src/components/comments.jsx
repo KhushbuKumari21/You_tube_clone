@@ -1,22 +1,29 @@
 // src/components/Comments.jsx
+
+// React + Redux + Router imports
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axiosInstance from "../axiosInstance";
+
+// Child component for each comment
 import Comment from "./Comment";
 import "../styles/comments.css";
 
 const Comments = ({ videoId }) => {
+  // Get current logged-in user from Redux
   const { currentUser } = useSelector((state) => state.user);
-  const [comments, setComments] = useState([]);
-  const [desc, setDesc] = useState("");
 
-  // Token fallback
+  // Local state
+  const [comments, setComments] = useState([]); // store all comments
+  const [desc, setDesc] = useState(""); // new comment text
+
+  // Token fallback: prefer Redux, then localStorage
   const token =
     currentUser?.token ||
     JSON.parse(localStorage.getItem("currentUser"))?.token;
 
-  // Fetch comments
+  // Fetch comments for the given video
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -27,13 +34,15 @@ const Comments = ({ videoId }) => {
         setComments([]);
       }
     };
+
     fetchComments();
   }, [videoId]);
 
   // Submit new comment
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!desc.trim()) return;
+
+    if (!desc.trim()) return; // ignore empty comments
     if (!token) return alert("Login to comment");
 
     try {
@@ -42,8 +51,10 @@ const Comments = ({ videoId }) => {
         { text: desc, video: videoId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+
+      // Add new comment to state
       setComments((prev) => [...prev, res.data]);
-      setDesc("");
+      setDesc(""); // clear input
     } catch (err) {
       console.error("Failed to post comment:", err);
     }
@@ -51,6 +62,7 @@ const Comments = ({ videoId }) => {
 
   return (
     <div className="comments-container">
+      {/* New Comment Input */}
       <div className="new-comment">
         <div className="comment-avatar">
           {currentUser?.img ? (
@@ -74,12 +86,14 @@ const Comments = ({ videoId }) => {
             Comment
           </button>
         ) : (
+          // Redirect to signin if user not logged in
           <Link to="/signin" className="comment-btn">
             Comment
           </Link>
         )}
       </div>
 
+      {/* Display All Comments */}
       <div className="all-comments">
         {comments.length > 0 ? (
           comments.map((cmt) => (
