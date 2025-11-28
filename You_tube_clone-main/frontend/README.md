@@ -183,7 +183,7 @@ Open in browser: http://localhost:5173
        Search Bar – Search videos by title or keywords.
  6.User Clicks Any Video
    Opens the Video Page.
-    User can:👍 Like 👎 Dislike 💬 Comment(create ,Edit , delte)
+    User can:👍 Like 👎 Dislike 💬 Comment(create ,Edit , delete)
     View channel info
     Check related videos
 
