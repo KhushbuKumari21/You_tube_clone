@@ -8,23 +8,26 @@ import { DEFAULT_TAGS } from "../constants";
 import "../styles/search.css";
 
 const SearchPage = () => {
+  // State for storing all videos fetched by search query
   const [videos, setVideos] = useState([]);
+  // State for storing filtered videos based on selected tag/category
   const [filteredVideos, setFilteredVideos] = useState([]);
-  const [tags] = useState(DEFAULT_TAGS);
-  const [activeTag, setActiveTag] = useState("All");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [tags] = useState(DEFAULT_TAGS); // Tags for filtering videos
+  const [activeTag, setActiveTag] = useState("All"); // Currently selected tag
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(""); // Error message state
 
-  const location = useLocation();
-  const navigate = useNavigate();
+  const location = useLocation(); // To access URL search params
+  const navigate = useNavigate(); // For programmatic navigation
 
   // Extract search query from URL
   const queryParams = new URLSearchParams(location.search);
   const query = queryParams.get("q")?.trim() || "";
 
-  // Fetch videos by search query
+  // Fetch videos based on search query from backend API
   useEffect(() => {
     if (!query) {
+      // If no query, reset state and show message
       setVideos([]);
       setFilteredVideos([]);
       setError("Please enter a search term.");
@@ -41,6 +44,7 @@ const SearchPage = () => {
         const result = Array.isArray(res.data) ? res.data : [];
         setVideos(result);
 
+        // Show message if no videos found
         if (result.length === 0) setError("No matching videos found.");
         else setError("");
       } catch (err) {
@@ -53,13 +57,14 @@ const SearchPage = () => {
     };
 
     fetchVideos();
-  }, [query]);
+  }, [query]); // Runs when search query changes
 
-  // Filter videos based on active category/tag
+  // Filter videos when active tag changes
   useEffect(() => {
     if (activeTag === "All") {
-      setFilteredVideos(videos);
+      setFilteredVideos(videos); // Show all videos if "All" selected
     } else {
+      // Filter videos by category or tags
       const filtered = videos.filter(
         (video) =>
           video.category?.toLowerCase() === activeTag.toLowerCase() ||
@@ -71,12 +76,15 @@ const SearchPage = () => {
     }
   }, [activeTag, videos]);
 
+  // Navigate to video page when user clicks on a video
   const handleClickVideo = (id) => navigate(`/video/${id}`);
 
   return (
     <div className="search-page-container">
+      {/* Tags component for filtering */}
       <Tags tags={tags} activeTag={activeTag} setActiveTag={setActiveTag} />
 
+      {/* Show loading spinner, error message, or search results */}
       {loading ? (
         <LoadingComp />
       ) : error ? (
