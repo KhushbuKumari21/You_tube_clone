@@ -1,4 +1,5 @@
 // src/components/Sidebar.jsx
+
 import React, { useMemo, useEffect, useState } from "react";
 import "../styles/sidebar.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -22,26 +23,33 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, darkMode }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+
   const currentUser = useSelector((state) => state.user.currentUser);
   const userId = currentUser?._id;
 
   const [userChannel, setUserChannel] = useState(null);
 
-  // ---- FETCH USER CHANNEL ----
+  // --------------------------
+  // FETCH USER CHANNEL (IF EXISTS)
+  // --------------------------
   useEffect(() => {
     const fetchUserChannel = async () => {
-      if (!userId) return;
+      if (!userId) return; // No user → skip
+
       try {
         const res = await api.get(`/channels/find/${userId}`);
-        setUserChannel(res.data); // user already has a channel
+        setUserChannel(res.data); // User already created channel
       } catch (err) {
-        setUserChannel(null); // user has no channel
+        setUserChannel(null); // User has no channel yet
       }
     };
+
     fetchUserChannel();
   }, [userId]);
 
-  // ---- ACTIVE TAB ----
+  // --------------------------
+  // SET ACTIVE TAB BASED ON PATH
+  // --------------------------
   const activeTab = useMemo(() => {
     switch (location.pathname) {
       case "/":
@@ -50,8 +58,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, darkMode }) => {
         return "Trending";
       case "/subscriptions":
         return "Subscriptions";
-      case "/history":
-        return "History";
       case "/your-videos":
         return "YourVideos";
       case "/watchlater":
@@ -65,13 +71,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, darkMode }) => {
     }
   }, [location.pathname]);
 
-  // ---- LOGOUT ----
+  // --------------------------
+  // LOGOUT USER
+  // --------------------------
   const logOut = () => {
     localStorage.removeItem("currentUser");
     dispatch(logout());
     navigate("/signin");
   };
 
+  // --------------------------
+  // NAVIGATION HELPER
+  // --------------------------
   const goToPage = (page, path) => {
     navigate(path);
     setSidebarOpen(false);
@@ -79,6 +90,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, darkMode }) => {
 
   return (
     <>
+      {/* Overlay when sidebar is open */}
       {sidebarOpen && (
         <div
           className="sidebar-overlay"
@@ -91,6 +103,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, darkMode }) => {
           darkMode ? "dark" : ""
         }`}
       >
+        {/* -------- LOGO -------- */}
         <div className="sidebar-header">
           <Link to="/" className="sidebar-logo-section">
             <IoLogoYoutube size={30} color="red" />
@@ -98,6 +111,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, darkMode }) => {
           </Link>
         </div>
 
+        {/* -------- MAIN SECTIONS -------- */}
         <div className="sidebar-section">
           <div
             className={`sidebar-item ${activeTab === "Home" ? "active" : ""}`}
@@ -136,7 +150,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, darkMode }) => {
             <MdOutlineVideoLibrary /> Your Videos
           </div>
 
-          {/* SHOW "YOUR CHANNEL" if user HAS a channel */}
+          {/* If user HAS a channel, show "Your Channel" */}
           {currentUser && userChannel && (
             <div
               className="sidebar-item"
@@ -146,7 +160,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, darkMode }) => {
             </div>
           )}
 
-          {/* SHOW "CREATE CHANNEL" if user DOES NOT have channel */}
+          {/* If user DOES NOT have channel, show Create Channel */}
           {currentUser && !userChannel && (
             <div
               className="sidebar-item create-channel-btn"
@@ -183,6 +197,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, darkMode }) => {
 
           <hr />
 
+          {/* SIGN OUT / SIGN IN */}
           {currentUser ? (
             <div className="sidebar-item" onClick={logOut}>
               <MdLogout /> Sign Out
@@ -200,6 +215,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, darkMode }) => {
           )}
         </div>
 
+        {/* -------- FOOTER -------- */}
         <div className="sidebar-footer">
           <a
             href="https://github.com/KhushbuKumari21"
