@@ -11,10 +11,9 @@ import Account from "./pages/Acoount";
 import UploadPage from "./pages/UploadPage";
 
 import CreateChannel from "./pages/CreateChannel";
-import ChannelPage from "./pages/ChannelPage";        
-import UploadVideo from "./pages/UploadPage";  
+import ChannelPage from "./pages/ChannelPage";
+import UploadVideo from "./pages/UploadPage";
 import EditVideo from "./pages/EditVideo";
-     
 
 import PageNotFound from "./pages/PageNotFound";
 import { useSelector } from "react-redux";
@@ -34,7 +33,6 @@ const AppWrapper = () => {
   return (
     <BrowserRouter>
       <div className="container">
-
         {/* Sidebar */}
         <Sidebar
           darkMode={darkMode}
@@ -44,7 +42,6 @@ const AppWrapper = () => {
         />
 
         <div className="main">
-
           {/* Navbar */}
           <Navbar
             darkMode={darkMode}
@@ -55,7 +52,6 @@ const AppWrapper = () => {
           {/* ROUTES */}
           <div className="wrapper">
             <Routes>
-
               {/* PROTECTED ROUTES */}
               <Route
                 path="/"
@@ -154,13 +150,18 @@ const AppWrapper = () => {
               />
 
               {/* PUBLIC ROUTES */}
-              <Route path="/signin" element={<SignIn setSidebarOpen={setSidebarOpen} />} />
-              <Route path="/signup" element={<RegisterPage setSidebarOpen={setSidebarOpen} />} />
+              <Route
+                path="/signin"
+                element={<SignIn setSidebarOpen={setSidebarOpen} />}
+              />
+              <Route
+                path="/signup"
+                element={<RegisterPage setSidebarOpen={setSidebarOpen} />}
+              />
               <Route path="/search" element={<Search />} />
 
               {/* 404 PAGE */}
               <Route path="*" element={<PageNotFound />} />
-
             </Routes>
           </div>
         </div>

@@ -1,97 +1,97 @@
-/* ---------------- TAGS CONTAINER ---------------- */
+/* src/styles/tags.css */
+
+/* Container for all tags */
 .tags-container {
-  position: fixed;
-  top: 61px;
-  left: 220px; /* Desktop sidebar width */
-  right: 0;
   display: flex;
-  flex-wrap: nowrap;
-  gap: 16px;
-  padding: 12px 18px;
-  overflow-x: auto;
-  background-color: var(--bg, #000);
-  z-index: 3000; /* Always above sidebar */
-  border-radius: 8px 0 0 8px;
-  scrollbar-width: thin;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  padding: 10px;
+  margin: 10px 0;
 }
 
-/* Hide scrollbar on Webkit (Chrome) */
-.tags-container::-webkit-scrollbar {
-  height: 0px;
-}
-
-/* ---------------- TAG ITEM ---------------- */
+/* Individual tag styling */
 .tag-item {
+  display: inline-block;
   padding: 8px 16px;
   border-radius: 20px;
-  border: 1px solid #ccc;
-  cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  white-space: nowrap;
-  transition: all 0.2s ease;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+  border: 1px solid transparent;
 }
 
-/* Light mode */
+/* Light Mode */
 .tag-item.light {
-  color: #000;
-  background-color: #f1f1f1;
-  border-color: #ddd;
+  background-color: #f1f3f4;
+  color: #333;
 }
 
-/* Dark mode */
-.tag-item.dark {
-  color: #fff;
-  background-color: #2a2a2a;
-  border-color: #444;
-}
-
-/* Active */
-.tag-item.active {
-  background-color: #3ea6ff;
-  color: white;
-  border-color: #3ea6ff;
-}
-
-/* Hover */
-.tag-item:hover {
+.tag-item.light:hover {
   background-color: #e0e0e0;
 }
+
+/* Dark Mode */
+.tag-item.dark {
+  background-color: #2c2c2c;
+  color: #f5f5f5;
+}
+
 .tag-item.dark:hover {
-  background-color: #3a3a3a;
+  background-color: #444;
 }
 
-/* ---------------- RESPONSIVE ---------------- */
-
-/* 📌 LARGE TABLET (sidebar slightly smaller) */
-@media (max-width: 1024px) {
-  .tags-container {
-    left: 160px;
-  }
+/* Active tag */
+.tag-item.active {
+  border: 2px solid #ff0000;
+  background-color: #ffebeb;
+  color: #ff0000;
 }
 
-/* 📌 TABLET + MOBILE: Sidebar collapses */
-@media (max-width: 768px) {
-  .tags-container {
-    left: 0; /* Full width */
-    top: 61px;
-    padding: 10px 12px;
-  }
+/* Dark active */
+.tag-item.dark.active {
+  border: 2px solid #ff4d4d;
+  background-color: #660000;
+  color: #fff;
+}
 
+/* Responsive font sizes and padding */
+@media (max-width: 480px) {
   .tag-item {
-    font-size: 13px;
+    font-size: 12px;
     padding: 6px 12px;
   }
 }
 
-/* 📌 SMALL MOBILE */
-@media (max-width: 480px) {
-  .tags-container {
-    top: 56px;
-  }
-
+@media (min-width: 481px) and (max-width: 768px) {
   .tag-item {
-    font-size: 12px;
-    padding: 4px 10px;
+    font-size: 13px;
+    padding: 7px 14px;
   }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .tag-item {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .tag-item {
+    font-size: 15px;
+    padding: 9px 18px;
+  }
+}
+
+/* Smooth hover and active transition */
+.tag-item,
+.tag-item.active {
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+}
+
+.tag-item:hover {
+  transform: scale(1.05);
 }

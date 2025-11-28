@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux/store";
 
-// ⚡ Enable React Router future flags
+// Enable React Router future flags
 window.__RR__ = {
   v7_startTransition: true,
   v7_relativeSplatPath: true
